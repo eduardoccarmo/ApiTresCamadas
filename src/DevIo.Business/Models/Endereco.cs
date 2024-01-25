@@ -9,5 +9,11 @@
         public string? Bairro { get; set; }
         public string? Cidade { get; set; }
         public string? Estado { get; set; }
+
+        #region Entity Framework Relationships
+
+        public Fornecedor Fornecedor { get; set; }
+
+        #endregion
     }
 }

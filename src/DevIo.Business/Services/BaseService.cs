@@ -17,7 +17,9 @@ namespace DevIo.Business.Services
 
         protected void Notificar(ValidationResult validationResult)
         {
-            foreach(var item in validationResult.Errors)
+            //validationResult.Errors.ForEach(item => Notificar(item.ErrorMessage));
+
+            foreach (var item in validationResult.Errors)
             {
                 Notificar(item.ErrorMessage);
             }
@@ -28,12 +30,10 @@ namespace DevIo.Business.Services
             _notificador.Handle(new Notificacao(mensagem));
         }
 
-        protected bool ExecutarValidacao<TV, TE>(TV validacao, TE entidade) 
-            where TV : AbstractValidator<TE> 
+        protected bool ExecutarValidacao<TV, TE>(TV validacao, TE entidade)
+            where TV : AbstractValidator<TE>
             where TE : Entity
         {
-            validacao.Validate(entidade);
-
             var validator = validacao.Validate(entidade);
 
             if (validator.IsValid)
