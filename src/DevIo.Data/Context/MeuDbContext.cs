@@ -6,10 +6,10 @@ namespace DevIo.Data.Context
     public class MeuDbContext : DbContext
     {
         /*ConnectionStirng = Server=localhost,1433;Database=balta;User ID=sa;Password=1q2w3e4r@#$*/
-
         public MeuDbContext(DbContextOptions<MeuDbContext> options) : base(options)
         {
-
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
         public DbSet<Produto> Produtos { get; set; }
@@ -29,6 +29,24 @@ namespace DevIo.Data.Context
 
             base.OnModelCreating(modelBuilder);
 
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            foreach (var entry in ChangeTracker.Entries().Where(entry => entry.Entity.GetType().GetProperty("DataCadastro") != null))
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Property("DataCadastro").CurrentValue = DateTime.Now;
+                }
+
+                if (entry.State == EntityState.Modified)
+                {
+                    entry.Property("DataCadastro").IsModified = false;
+                }
+            }
+
+            return base.SaveChangesAsync(cancellationToken);
         }
     }
 }
