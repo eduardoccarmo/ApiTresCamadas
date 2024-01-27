@@ -1,6 +1,7 @@
 ﻿using DevIo.Business.Models;
 using DevIo.Data.Context;
 using DevIO.Business.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace DevIo.Data.Repository
 {
@@ -8,24 +9,31 @@ namespace DevIo.Data.Repository
     {
         public FornecedorRepository(MeuDbContext db) : base(db) { }
 
-        public Task<Endereco> ObterEnderecoPorFornecedor(Guid fornecedorId)
+        public async Task<Fornecedor> ObterFornecedorEndereco(Guid id)
         {
-            throw new NotImplementedException();
+            return await Db.Fonecedores.AsNoTracking()
+                .Include(e => e.Endereco)
+                .FirstOrDefaultAsync(p => p.Id == id); 
         }
 
-        public Task<Fornecedor> ObterFornecedorEndereco(Guid id)
+        public async Task<Fornecedor> ObterFornecedorProdutosEndereco(Guid id)
         {
-            throw new NotImplementedException();
+            return await Db.Fonecedores.AsNoTracking()
+               .Include(e => e.Endereco)
+               .Include(p => p.Produtos)
+               .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public Task<Fornecedor> ObterFornecedorProdutosEndereco(Guid id)
+        public async Task RemoverEnderecoFornecedor(Endereco endereco)
         {
-            throw new NotImplementedException();
+            Db.Enderecos.Remove(endereco);
+            await SaveChanges();
         }
 
-        public Task RemoverEnderecoFornecedor(Endereco endereco)
+        public async Task<Endereco> ObterEnderecoPorFornecedor(Guid fornecedorId)
         {
-            throw new NotImplementedException();
+            return await Db.Enderecos.AsNoTracking()
+                .FirstOrDefaultAsync(f => f.Id == fornecedorId);
         }
     }
 }
