@@ -2,7 +2,6 @@
 using DevIo.Data.Context;
 using DevIO.Business.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
 
 namespace DevIo.Data.Repository
 {
