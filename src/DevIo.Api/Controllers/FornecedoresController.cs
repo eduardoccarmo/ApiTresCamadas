@@ -15,7 +15,7 @@ namespace DevIO.Api.Controllers
         [HttpGet]
         public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
         {
-
+            
         }
 
         [HttpGet("{id:guid}")]
