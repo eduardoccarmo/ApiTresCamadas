@@ -5,6 +5,7 @@ using DevIo.Business.Interfaces;
 using DevIo.Business.Models;
 using DevIO.Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace DevIO.Api.Controllers
 {
@@ -48,7 +49,7 @@ namespace DevIO.Api.Controllers
 
             await _fornecedorService.Adicionar(_mapper.Map<Fornecedor>(fornecedorViewModel));
 
-            return CustomResponse(fornecedorViewModel);
+            return CustomResponse(HttpStatusCode.Created,fornecedorViewModel);
         }
 
         [HttpPut("{id:guid}")]
@@ -64,7 +65,7 @@ namespace DevIO.Api.Controllers
 
             await _fornecedorService.Atualizar(_mapper.Map<Fornecedor>(fornecedorViewModel));
 
-            return CustomResponse();
+            return CustomResponse(HttpStatusCode.NoContent);
         }
 
         [HttpDelete("{id:guid}")]
@@ -72,7 +73,7 @@ namespace DevIO.Api.Controllers
         {
             await _fornecedorService.Remover(id);
 
-            return CustomResponse();
+            return CustomResponse(HttpStatusCode.NoContent);
         }
 
         private async Task<FornecedorViewModel> ObterFornecedorProdutosEndereco(Guid id)
