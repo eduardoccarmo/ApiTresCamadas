@@ -19,7 +19,7 @@ namespace DevIo.Data.Repository
 
         public virtual async Task Adicionar(TEntity entity)
         {
-            DbSet.Update(entity);
+            DbSet.Add(entity);
             await SaveChanges();
         }
 

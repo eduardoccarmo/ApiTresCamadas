@@ -11,8 +11,8 @@ namespace DevIO.Business.Services
     {
         private readonly IFornecedorRepository _fornecedorRepository;
 
-        public FornecedorService(IFornecedorRepository fornecedorRepository, 
-                                 INotificador notificador) : base(notificador) 
+        public FornecedorService(IFornecedorRepository fornecedorRepository,
+                                 INotificador notificador) : base(notificador)
         {
             _fornecedorRepository = fornecedorRepository;
         }
@@ -25,7 +25,7 @@ namespace DevIO.Business.Services
             if (_fornecedorRepository.Buscar(f => f.Documento == fornecedor.Documento).Result.Any())
             {
                 Notificar("Já existe um fornecedor cadastrado com este documento.");
-                
+
                 return;
             }
 
@@ -51,7 +51,7 @@ namespace DevIO.Business.Services
         {
             var fornecedor = await _fornecedorRepository.ObterFornecedorProdutosEndereco(id);
 
-            if(fornecedor == null)
+            if (fornecedor == null)
             {
                 Notificar($"Não existe fornecedor cadastrado com o id {id}.");
 
@@ -67,7 +67,7 @@ namespace DevIO.Business.Services
 
             var endereco = _fornecedorRepository.ObterFornecedorEndereco(id);
 
-            if(endereco != null)
+            if (endereco != null)
             {
                 Notificar("Não é possível remover o fornecedor pois ele possuí endereço cadastrados, exclua-o antes de remover o fornecedor.");
 
